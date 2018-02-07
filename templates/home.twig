@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+	<head>
+		<style>
+			body {
+				font-family: Arial, Helvetica, sans-serif;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>{{ entry.pageTitle }}</h1>
+
+		 {% set transform = {
+		    mode: 'fit',
+		    width: 300,
+		    quality: 85,
+		} %}
+
+		{% set image = entry.image.one() %}
+
+		<img
+			src="{{ image.getUrl(transform) }}"
+			alt="{{ image.title }}"
+		    width="{{ image.getWidth(transform) }}"
+		    height="{{ image.getHeight(transform) }}"
+		/>
+
+
+		<div>
+			<hr>
+			<h4>Issue:</h4>
+			<p>
+				The issue is, that the image transforms fail with <strong>craft 3.0.0-RC9</strong>
+				when a entry page is first called through the <em>secondary langauge page</em> 
+				(<a href="///craft-3-transform-bug.test/de/">craft-3-transform-bug.test/de/</a>) 
+				and the <strong>image transform isn't yet indexed!</strong>
+				<br>
+				<br>
+				We use the following multilungual site setup like described 
+				<a href="https://craftcms.com/docs/localization-guide#step-5-set-up-the-files" target="__blank">here in example 2</a>:
+				<br> 
+			</p>
+			<code>
+				web/de/  <-- secondary language <br>
+				web/	 <-- default, primary langauge
+			</code>
+			<br> 
+
+			<hr>
+
+			<h4>How to reproduce:</h4>
+			<p>
+				<ol>
+					<li>
+						Start this project
+					</li>
+					<li>
+						Clear the <strong>"Asset transform index"</strong>
+						<br>
+						In the <em>Controle Panel</em> got to <em>Utilities -> Clear Caches</em> 
+					</li>
+					<li>
+						Now, first load the <em>secondary language page</em> which is: 
+						<a href="///craft-3-transform-bug.test/de/">craft-3-transform-bug.test/de/</a>
+					</li>
+					<li>
+						--> The image transform is failed
+					</li>
+					<li>
+						Afterward load the <em>primary language page</em> which is: 
+						<a href="///craft-3-transform-bug.test/">craft-3-transform-bug.test/</a>
+					</li>
+					<li>
+						--> The image transform will be indexed properly and now you can also
+						load the <em>secondary language page</em> and the image will work properly.
+					</li>
+				</ol>
+			</p>
+
+			<hr>
+
+			<h4>Login:</h4>
+			<table>
+				<tr>
+					<td>User:</td>
+					<td>test</td>
+				</tr>
+				<tr>
+					<td>Email:</td>
+					<td>test@test.de</td>
+				</tr>
+				<tr>
+					<td>Password:</td>
+					<td>testtest</td>
+				</tr>
+			</table>
+		</div>
+	</body>
+</html>
